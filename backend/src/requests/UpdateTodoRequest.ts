@@ -6,3 +6,9 @@ export interface UpdateTodoRequest {
   dueDate: string
   done: boolean
 }
+
+export interface UpdateTodoResponse {
+  name: string
+  dueDate: string
+  done: boolean
+}

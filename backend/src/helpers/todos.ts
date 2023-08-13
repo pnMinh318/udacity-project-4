@@ -12,24 +12,26 @@ import * as createError from 'http-errors'
 export const createTodo = async <T>(todo: CreateTodoRequest): Promise<T> => {
     try {
     } catch (error) {
-        return 0;
+        return 0 as T;
     }
-    return 1
+    return 1 as T
 }
 
-export const deleteTodo = async (todoId: string) : Promise<T> => {
+export const deleteTodo = async <T>(todoId: string) : Promise<T> => {
     try {
         const res = await 
     } catch (error) {
-        return undefined;
+        return undefined as T;
     }
-    return true;
+    return true as T;
 }
 
 export const getTodosForUser = async (userToken: string): Promise<Array<TodoItem>> =>{
     return []
 }
 
-export const updateTodo =  async (id, todo: UpdateTodoRequest): Promise<TodoItem> =>{
-    return null;
+export const updateTodo =  async <T>(id, todo: UpdateTodoRequest): Promise<T> =>{
+    return {
+
+    } as T;
 }

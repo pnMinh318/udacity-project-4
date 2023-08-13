@@ -16,7 +16,7 @@ export const handler = middy(
       if (deletedTodo)
         return {
           statusCode: 204,
-          body: 'Todo deleted successfully'
+          body: null
         }
     } catch (error) {}
 

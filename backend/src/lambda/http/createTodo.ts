@@ -2,7 +2,10 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 import * as middy from 'middy'
 import { cors } from 'middy/middlewares'
-import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
+import {
+  CreateTodoRequest,
+  CreateTodoResponse
+} from '../../requests/CreateTodoRequest'
 import { getUserId } from '../utils'
 import { createTodo } from '../../helpers/todos'
 
@@ -11,10 +14,11 @@ export const handler = middy(
     try {
       const newTodo: CreateTodoRequest = JSON.parse(event.body)
       // TODO: Implement creating a new TODO item
-      const createdTodo = await createTodo(newTodo)
+      const createdTodo = await createTodo<CreateTodoResponse>(newTodo)
 
-      return { statusCode: 201, body: createdTodo }
+      return { statusCode: 201, body: JSON.stringify(createdTodo) }
     } catch (error) {
+      console.log('🚀 ~ file: createTodo.ts:18 ~ error:', error)
       return undefined
     }
   }
