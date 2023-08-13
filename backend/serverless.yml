@@ -62,6 +62,12 @@ functions:
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.environment.TODOS_TABLE}
     events:
       - http:
           method: post
@@ -76,6 +82,12 @@ functions:
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.environment.TODOS_TABLE}
     events:
       - http:
           method: patch
@@ -87,6 +99,12 @@ functions:
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.environment.TODOS_TABLE}
     events:
       - http:
           method: delete
@@ -97,6 +115,14 @@ functions:
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:UpdateItem
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.environment.TODOS_TABLE}
     events:
       - http:
           method: post
@@ -124,6 +150,7 @@ resources:
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        TableName: ${self:provider.environment.TODOS_TABLE}
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
@@ -137,7 +164,6 @@ resources:
           - AttributeName: todoId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.TODOS_TABLE}
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
             KeySchema:
