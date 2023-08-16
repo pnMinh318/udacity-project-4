@@ -3,5 +3,6 @@
   "semi": false,
   "singleQuote": true,
   "printWidth": 80,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "plugins": ["prettier-plugin-clean-imports"]
 }

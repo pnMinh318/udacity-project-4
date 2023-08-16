@@ -1,5 +1,5 @@
 # TODO: Change the name of the org
-org: minhpn
+org: minhpn19
 app: serverless-todo-app
 service: serverless-todo-app
 
@@ -10,7 +10,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   lambdaHashingVersion: '20201221'
 
   stage: ${opt:stage, 'dev'}
@@ -94,6 +94,9 @@ functions:
           path: todos/{todoId}
           cors: true
           authorizer: Auth
+          request:
+            schemas:
+              application/json: ${file(models/update-todo-model.json)}
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
