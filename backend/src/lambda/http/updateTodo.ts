@@ -5,23 +5,25 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { updateTodo } from '../../helpers/todos'
-import { UpdateTodoRequest, UpdateTodoResponse } from '../../requests/UpdateTodoRequest'
-import { getUserId } from '../utils'
+import { UpdateTodoRequest,  } from '../../requests/UpdateTodoRequest'
+// import { getUserId } from '../utils'
 import { logger } from '../../helpers/todosAcess'
+import { getUserId } from '../utils'
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const todoId: string = event.pathParameters.todoId
   const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+  const userId : string = getUserId(event)
   // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
   try {
     logger.info('Updating todo')
-    const res = await updateTodo(todoId, updatedTodo)
+    const res = await updateTodo(userId,todoId, updatedTodo)
     return {
       statusCode: 200,
       body: JSON.stringify(res)
     }
   } catch (error) {
-    console.log('🚀 ~ file: updateTodo.ts:26 ~ error:', error)
+    logger.error(`Error while updating ${error}`)
     return { statusCode: 500, body: 'Something went wrong when updating' }
   }
 })

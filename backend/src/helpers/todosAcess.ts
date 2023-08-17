@@ -7,4 +7,4 @@ import { createLogger } from '../utils/logger'
 
 export const XAWS = AWSXRay.captureAWS(AWS)
 
-export const logger = createLogger('MinhPN-Todo-Access')
+export const logger = createLogger('MinhPN-Todo-Logger')
